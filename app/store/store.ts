@@ -1,5 +1,10 @@
 import { create } from "zustand";
-import { devtools, persist } from "zustand/middleware";
+import { createJSONStorage, devtools, persist } from "zustand/middleware";
+
+const storage =
+  typeof window !== "undefined"
+    ? createJSONStorage(() => localStorage)
+    : undefined;
 
 type Puzzle = {
   word: string;
@@ -42,6 +47,6 @@ export const useStore = create<PuzzleStore>()(
           ),
         })),
     }),
-    { name: "puzzleStore" }
+    { name: "puzzleStore", storage }
   )
 );
