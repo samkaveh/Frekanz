@@ -137,15 +137,17 @@ const DraggableComponent: React.FC<DraggableComponentProps> = ({
 
   const addPuzzle = useStore((store) => store.addPuzzle, shallow);
 
-  if (puzzle == null) {
-    addPuzzle({ word: word, state: "unsolved", bundle: bundle });
-  }
+  useEffect(() => {
+    if (puzzle == null) {
+      addPuzzle({ word: word, state: "unsolved", bundle: bundle });
+    }
+  }, [word, puzzle]);
 
   useEffect(() => {
     if (puzzle != null && puzzle.state == "solved") {
       solve();
     }
-  }, [word]);
+  }, [word, puzzle]);
 
   const updatePuzzleState = useStore(
     (store) => store.updatePuzzleState,
